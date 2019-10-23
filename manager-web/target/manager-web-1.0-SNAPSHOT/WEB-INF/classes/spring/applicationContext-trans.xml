@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd ">
+
+    <import resource="applicationContext-dao.xml"/>
+    <!-- (事务管理)transaction manager -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <tx:advice id="advice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!-- 为连接点指定事务属性 -->
+            <tx:method name="insert*" isolation="DEFAULT" propagation="REQUIRED" />
+            <tx:method name="add*" isolation="DEFAULT" propagation="REQUIRED" />
+        </tx:attributes>
+    </tx:advice>
+</beans>
